@@ -107,3 +107,79 @@ ProgettoBasi/
 ## Autore
 
 Tommus129 - Corso di Basi di Dati
+
+---
+
+## Schema Database
+
+| Tabella | Descrizione |
+|---|---|
+| `Utenti` | Utenti del sistema (admin, revisore, azienda) |
+| `Aziende` | Anagrafica aziende registrate |
+| `IndicatoriESG` | Indicatori E/S/G configurabili dall'admin |
+| `Bilanci` | Bilanci ESG per anno e azienda |
+| `ValoriBilancio` | Valori numerici degli indicatori per ogni bilancio |
+| `Revisioni` | Storico revisioni con esito e commento |
+
+---
+
+## Ruoli Utente
+
+| Ruolo | Permessi |
+|---|---|
+| `admin` | Gestione completa: utenti, aziende, indicatori, assegnazione revisori |
+| `revisore` | Visualizza bilanci assegnati, approva / rifiuta / richiede modifiche |
+| `azienda` | Inserisce bilanci ESG, invia per revisione, monitora lo stato |
+
+---
+
+## Tecnologie Utilizzate
+
+| Tecnologia | Versione | Utilizzo |
+|---|---|---|
+| PHP | >= 8.0 | Backend e logica applicativa |
+| MySQL | >= 8.0 | Database relazionale principale |
+| MongoDB | >= 6.0 | Log delle azioni utente |
+| Apache | >= 2.4 | Web server |
+| HTML5 / CSS3 | - | Interfaccia utente |
+| JavaScript | ES6+ | Interattivita' lato client |
+
+---
+
+## Flusso Applicativo
+
+```
+[Azienda]
+  1. Accede al sistema tramite login
+  2. Crea un nuovo bilancio ESG (stato: bozza)
+  3. Inserisce i valori per ogni indicatore E / S / G
+  4. Invia il bilancio per revisione
+
+[Admin]
+  - Gestisce utenti, aziende e indicatori ESG
+  - Assegna un revisore al bilancio inviato
+
+[Revisore]
+  1. Visualizza i bilanci assegnati nella sua dashboard
+  2. Consulta i valori di ogni indicatore
+  3. Approva, rifiuta o richiede modifiche con commento
+
+[MongoDB - Log]
+  - Ogni azione viene registrata: login, logout,
+    invio bilancio, revisione, con timestamp e IP
+```
+
+---
+
+## Sicurezza
+
+- Password cifrate con `password_hash()` (algoritmo bcrypt)
+- Protezione SQL injection tramite **PDO prepared statements**
+- Controllo ruoli su ogni pagina tramite `requireRole()` in `auth.php`
+- Rigenerazione session ID al login (`session_regenerate_id(true)`)
+- Corretta distruzione della sessione al logout
+
+---
+
+> **Corso di Basi di Dati** - Anno Accademico 2024/2025
+> Universita' di Bologna
