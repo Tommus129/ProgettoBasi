@@ -3,13 +3,14 @@
  * db.php - Connessione al database MySQL tramite PDO
  * ESG-BALANCE Platform
  */
-
-define('DB_HOST', 'localhost');
-define('DB_PORT', '3306');
-define('DB_NAME', 'esg_balance');
-define('DB_USER', 'root');       // Modifica con le credenziali reali
-define('DB_PASS', '');           // Modifica con la password reale
-define('DB_CHARSET', 'utf8mb4');
+ require_once __DIR__ . '/../../vendor/autoload.php';
+ define('DB_HOST', '127.0.0.1');  // Usa 127.0.0.1 invece di localhost
+ define('DB_PORT', '8889');       // Porta MySQL di MAMP
+ define('DB_NAME', 'esg_balance');
+ define('DB_USER', 'root');
+ define('DB_PASS', 'root');       // Password di MAMP
+ define('DB_CHARSET', 'utf8mb4');
+ 
 
 try {
     $dsn = sprintf(

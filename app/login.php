@@ -18,24 +18,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($email) || empty($password)) {
         $error = 'Inserisci email e password.';
     } else {
-        $stmt = $pdo->prepare("SELECT * FROM Utenti WHERE email = ? AND attivo = 1");
-        $stmt->execute([$email]);
-        $utente = $stmt->fetch();
+        $stmt = $pdo->prepare("
+    SELECT u.id_utente, u.nome, u.cognome, u.username, u.password_hash, u.id_ruolo, eu.email, r.nome_ruolo
+    FROM utenti u 
+    INNER JOIN email_utenti eu ON u.id_utente = eu.id_utente 
+    INNER JOIN ruoli r ON u.id_ruolo = r.id_ruolo
+    WHERE eu.email = ?
+");
+$stmt->execute([$email]);
+$utente = $stmt->fetch();
 
-        if ($utente && password_verify($password, $utente['password'])) {
-            // Login corretto
-            session_regenerate_id(true);
-            $_SESSION['id_utente'] = $utente['id_utente'];
-            $_SESSION['nome']      = $utente['nome'];
-            $_SESSION['cognome']   = $utente['cognome'];
-            $_SESSION['email']     = $utente['email'];
-            $_SESSION['ruolo']     = $utente['ruolo'];
+if ($utente && password_verify($password, $utente['password_hash'])) {
+    // Login corretto
+    session_regenerate_id(true);
+    $_SESSION['id_utente'] = $utente['id_utente'];
+    $_SESSION['nome']      = $utente['nome'];
+    $_SESSION['cognome']   = $utente['cognome'];
+    $_SESSION['email']     = $utente['email'];
+    $_SESSION['ruolo']     = $utente['nome_ruolo']; // usa nome_ruolo dalla tabella ruoli
+
 
             // Log MongoDB
             logAzione('login', 'Accesso eseguito', ['email' => $email]);
 
-            $ruolo = $utente['ruolo'];
+            $ruolo_db = $utente['nome_ruolo']; // Es: 'amministratore'
+
+            // Mappa i ruoli del database ai nomi delle cartelle
+            $ruolo_map = [
+                'amministratore' => 'admin',
+                'revisore_esg' => 'revisore',
+                'responsabile_aziendale' => 'responsabile'
+            ];
+
+            $ruolo = $ruolo_map[$ruolo_db] ?? 'admin';
+
+            // Salva il ruolo in sessione
+            $_SESSION['ruolo'] = $ruolo;
+            $_SESSION['ruolo_db'] = $ruolo_db;
+
             header('Location: pages/' . $ruolo . '/dashboard_' . $ruolo . '.php');
+
+
             exit;
         } else {
             $error = 'Email o password non corretti.';

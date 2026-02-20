@@ -3,10 +3,11 @@
 // ESG-BALANCE - Dashboard Amministratore
 // =============================================================
 require_once __DIR__ . '/../../includes/auth.php';
-requireRole('amministratore');
+requireRole(['amministratore']);
 
-require_once __DIR__ . '/../../config/db_config.php';
-$pdo = getDBConnection();
+require_once __DIR__ . '/../../includes/db.php';
+
+//$pdo = getDBConnection();
 
 // Statistiche dalla viste
 $totAziende  = $pdo->query('SELECT totale_aziende FROM v_numero_aziende')->fetchColumn();
@@ -18,7 +19,7 @@ $topAziende  = $pdo->query('SELECT ragione_sociale, percentuale_affidabilita FRO
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Admin - ESG-BALANCE</title>
-    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../public/css/style.css">
 </head>
 <body>
 <nav class="navbar navbar-dark bg-success">

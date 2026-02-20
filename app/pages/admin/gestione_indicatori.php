@@ -3,8 +3,9 @@
 // ESG-BALANCE - Admin: Gestione Indicatori ESG
 // =============================================================
 require_once __DIR__ . '/../../includes/auth.php';
-requireRole('amministratore');
-require_once __DIR__ . '/../../config/db_config.php';
+requireRole(['amministratore']);
+require_once __DIR__ . '/../../includes/db.php';
+;
 
 $pdo     = getDBConnection();
 $errore  = '';

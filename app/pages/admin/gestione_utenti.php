@@ -2,7 +2,7 @@
 session_start();
 require_once '../../includes/db.php';
 require_once '../../includes/auth.php';
-requireRole('admin');
+requireRole(['admin']);
 
 // Gestione azioni POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

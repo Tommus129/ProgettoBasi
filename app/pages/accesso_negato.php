@@ -10,7 +10,7 @@ requireAuth();
 <head>
     <meta charset="UTF-8">
     <title>Accesso Negato - ESG-BALANCE</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../public/css/style.css">
 </head>
 <body class="bg-light">
 <div class="container mt-5">

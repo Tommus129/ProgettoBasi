@@ -5,7 +5,7 @@
 
 session_start();
 
-require_once __DIR__ . '/../config/db_config.php';
+require_once __DIR__ . '/db.php';
 
 /**
  * Esegue il login dell'utente.
@@ -57,11 +57,13 @@ function requireAuth(): void {
  * Verifica che l'utente abbia il ruolo richiesto.
  * Se no, redireziona a una pagina di accesso negato.
  */
-Add app/includes/auth.php - autenticazione e controllo ruoli    requireAuth();
+function requireRole(array $ruoli): void {
+    requireAuth();
     if (!in_array($_SESSION['ruolo'], $ruoli, true)) {
         header('Location: /app/pages/accesso_negato.php');
         exit;
     }
+
 }
 
 /**
