@@ -1,0 +1,35 @@
+# Dipendenze e cartelle di sistema
+/vendor/
+/node_modules/
+
+# File di configurazione con credenziali
+/app/config/db_config.php
+/app/config/mongo_config.php
+
+# File di log
+*.log
+/logs/
+
+# Cache
+/cache/
+*.cache
+
+# File di sistema macOS
+.DS_Store
+
+# File di sistema Windows
+Thumbs.db
+desktop.ini
+
+# File di IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Upload utenti (non versionare file caricati)
+/app/uploads/
+
+# File di ambiente
+.env
+.env.local
